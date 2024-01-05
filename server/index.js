@@ -74,6 +74,18 @@ app.get('/test', (req, res) => {
   res.json({ message: "Test endpoint is working" });
 });
 
+// Get list of registered users
+app.get('/users', (req, res) => {
+  db.all("SELECT username FROM users", [], (error, rows) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+    const usernames = rows.map(row => row.username);
+    res.json(usernames);
+  });
+});
+
+
 // Start the server
 const PORT = 5000;
 app.listen(PORT, '127.0.0.1', () => {
